@@ -1,26 +1,32 @@
 package pw.pdm.pdmsyncserver.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.socket.config.annotation.EnableWebSocket;
-import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
-import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
-import org.springframework.web.socket.handler.TextWebSocketHandler;
-import org.springframework.web.socket.WebSocketSession;
-import org.springframework.web.socket.TextMessage;
+import org.springframework.web.reactive.HandlerMapping;
+import org.springframework.web.reactive.handler.SimpleUrlHandlerMapping;
+import org.springframework.web.reactive.socket.WebSocketHandler;
+import org.springframework.web.reactive.socket.server.support.WebSocketHandlerAdapter;
+import pw.pdm.pdmsyncserver.handler.DebugWebSocketHandler;
+import pw.pdm.pdmsyncserver.handler.ReactiveWebSocketHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
-@EnableWebSocket
-public class WebSocketConfig implements WebSocketConfigurer {
+public class WebSocketConfig {
 
-    @Override
-    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(new TextWebSocketHandler() {
-            @Override
-            protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-                String payload = message.getPayload();
-                TextMessage response = new TextMessage("Echo: " + payload);
-                session.sendMessage(response);
-            }
-        }, "/ws").setAllowedOrigins("*");
+    @Bean
+    public HandlerMapping webSocketHandlerMapping() {
+        Map<String, WebSocketHandler> map = new HashMap<>();
+        map.put("/ws", new ReactiveWebSocketHandler());
+        SimpleUrlHandlerMapping mapping = new SimpleUrlHandlerMapping();
+        mapping.setUrlMap(map);
+        mapping.setOrder(-1);
+        return mapping;
+    }
+
+    @Bean
+    public WebSocketHandlerAdapter handlerAdapter() {
+        return new WebSocketHandlerAdapter();
     }
 }
