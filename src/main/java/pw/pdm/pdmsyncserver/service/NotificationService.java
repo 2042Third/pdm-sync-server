@@ -32,7 +32,7 @@ public class NotificationService {
         );
         logger.info("NotificationService initialized");
         startClientTimeoutChecker();
-        startHeartbeat();
+//        startHeartbeat();
     }
 
     public Flux<ServerSentEvent<String>> getNotificationFlux() {
