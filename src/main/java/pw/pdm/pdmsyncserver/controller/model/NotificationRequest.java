@@ -5,6 +5,8 @@ public class NotificationRequest {
 
     private String message;
 
+    public NotificationRequest() {}
+
     // Getters and setters
     public String getMessage() {
         return message;

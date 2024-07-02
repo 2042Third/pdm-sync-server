@@ -1,8 +1,11 @@
 [
   {
-    "name": "pw.pdm.pdmsyncserver",
+    "name": "pw.pdm.pdmsyncserver.controller.model.NotificationRequest",
     "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "allDeclaredMethods": true,
+    "allPublicMethods": true,
     "allDeclaredFields": true,
-    "allDeclaredMethods": true
+    "allPublicFields": true
   }
 ]
